@@ -517,11 +517,20 @@ section.resume{
   margin-bottom: 10px;
 }
 
-.resume .resume-item ul {
-  padding-left: 0px;
+.resume .resume-item ul.list-responsibilities{
+  padding-left: 20px;
+  margin-bottom: 0;
 }
 
-.resume .resume-item ul li {
+.resume .resume-item ul.list-responsibilities li{
+  padding-bottom: 10px;
+}
+
+
+.resume .resume-item ul.list-skills{
+  padding-left: 0;
+}
+.resume .resume-item ul.list-skills li {
   padding-bottom: 10px;
   display: inline-block;
   color: #37b3ed;

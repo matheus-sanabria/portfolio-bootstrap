@@ -1,41 +1,36 @@
 <?php
-  /**
-  * Requires the "PHP Email Form" library
-  * The "PHP Email Form" library is available only in the pro version of the template
-  * The library should be uploaded to: vendor/php-email-form/php-email-form.php
-  * For more info and help: https://bootstrapmade.com/php-email-form/
-  */
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 
-  // Replace contact@example.com with your real receiving email address
-  $receiving_email_address = 'contato@codificadoresdenegocios.com';
+error_log("Início do script contact.php");
 
-  if( file_exists($php_email_form = '../assets/vendor/php-email-form/php-email-form.php' )) {
-    include( $php_email_form );
-  } else {
-    die( 'Unable to load the "PHP Email Form" Library!');
-  }
+try {
+    // Caminho absoluto para o arquivo Mail.class.php
+    include(__DIR__ . '/../assets/vendor/classes/Mail.class.php');
+    error_log("Classe Mail incluída com sucesso");
 
-  $contact = new PHP_Email_Form;
-  $contact->ajax = true;
-  
-  $contact->to = $receiving_email_address;
-  $contact->from_name = $_POST['name'];
-  $contact->from_email = $_POST['email'];
-  $contact->subject = $_POST['subject'];
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        error_log("Dados POST recebidos: " . print_r($_POST, true));
 
-  // Uncomment below code if you want to use SMTP to send emails. You need to enter your correct SMTP credentials
-  /*
-  $contact->smtp = array(
-    'host' => 'example.com',
-    'username' => 'example',
-    'password' => 'pass',
-    'port' => '587'
-  );
-  */
+        $m = new Mail($_POST);
+        error_log("Instância de Mail criada");
 
-  $contact->add_message( $_POST['name'], 'From');
-  $contact->add_message( $_POST['email'], 'Email');
-  $contact->add_message( $_POST['message'], 'Message', 10);
+        if ($m->sendMail()) {
+            error_log("E-mail enviado com sucesso");
+            echo json_encode(['status' => 'success']);
+        } else {
+            error_log("Falha ao enviar o e-mail");
+            echo json_encode(['status' => 'error', 'message' => 'Falha ao enviar o e-mail']);
+        }
+    } else {
+        error_log("Nenhum dado POST recebido");
+        echo json_encode(['status' => 'error', 'message' => 'Nenhum dado POST recebido']);
+    }
+} catch (Exception $e) {
+    error_log("Erro: " . $e->getMessage());
+    echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
+}
 
-  echo $contact->send();
+error_log("Fim do script contact.php");
 ?>
