@@ -84,10 +84,14 @@ h6 {
   overflow-y: auto;
 }
 
-#header .profile img {
+.profile-img {
   margin: 15px auto;
-  display: block;
-  width: 120px;
+  background-image: url('../img/profile-img.jpeg');
+  background-position: center;
+  background-size: cover;
+  padding-top: 100%;
+  width: 100%; /* Ajusta a largura da imagem ao tamanho do contêiner */
+  border-radius: 50%; /* Torna a imagem redonda (opcional) */
   border: 8px solid #2c2f3f;
 }
 
@@ -242,8 +246,10 @@ h6 {
 #hero {
   width: 100%;
   height: 100vh;
-  background: url("../img/hero-bg.jpg") top center;
+  background: url("../img/banner.png") ;
   background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 #hero:before {
@@ -347,6 +353,9 @@ section {
 /*--------------------------------------------------------------
 # About
 --------------------------------------------------------------*/
+.about .profile-img{
+  transform: scaleX(-1); /* Espelha a imagem horizontalmente */
+}
 .about .content h3 {
   font-weight: 700;
   font-size: 26px;
